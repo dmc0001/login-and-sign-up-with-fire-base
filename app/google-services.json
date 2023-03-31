@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "457513088256",
+    "project_id": "splash-screen-337c9",
+    "storage_bucket": "splash-screen-337c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457513088256:android:4b5501579dc08499a66fe5",
+        "android_client_info": {
+          "package_name": "com.anyandroid.haithemapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "457513088256-a18kk9nior0l8ehq4tnn8l6ad634jah7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anyandroid.haithemapp",
+            "certificate_hash": "b977f41f881a89baae89d8a309981d705bb89ba2"
+          }
+        },
+        {
+          "client_id": "457513088256-h9mb9kvg4binqs51vv0o7qjdpfufpc7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-cscBEaz0YomntM4si-P6rEkXKOSlYNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "457513088256-h9mb9kvg4binqs51vv0o7qjdpfufpc7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
