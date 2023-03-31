@@ -8,9 +8,11 @@ import com.anyandroid.haithemapp.databinding.ActivitySignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
-
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 
 class SignupActivity : AppCompatActivity() {
@@ -39,23 +41,32 @@ class SignupActivity : AppCompatActivity() {
     private fun registerUser() {
         val email = binding.editTextEmail.text.toString()
         val password = binding.editTextPassword.text.toString()
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    user?.sendEmailVerification()?.addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this@SignupActivity,"Please, Verify your email",Toast.LENGTH_SHORT).show()
-                        }
 
-                    }
-                    val intent = Intent(this@SignupActivity,LoginActivity::class.java)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this@SignupActivity,"Failed creation",Toast.LENGTH_SHORT).show()
+        // Launch a coroutine on the IO dispatcher
+        CoroutineScope(Dispatchers.IO).launch {
+
+            try {
+                // Attempt to create a user with the provided email and password
+                val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+
+                // Send email verification to the user
+                authResult.user?.sendEmailVerification()?.await()
+
+                // Switch to the Main dispatcher to show a toast message on the UI thread
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@SignupActivity,"Please, Verify your email",Toast.LENGTH_SHORT).show()
+                }
+
+                // Launch the LoginActivity after successful user creation
+                startActivity(Intent(this@SignupActivity,LoginActivity::class.java))
+
+            } catch (e: Exception) {
+                // Handle any exceptions thrown during user creation
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@SignupActivity,e.message.toString(),Toast.LENGTH_SHORT).show()
                 }
             }
-
+        }
     }
 
 
