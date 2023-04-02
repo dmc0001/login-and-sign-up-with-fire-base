@@ -62,7 +62,10 @@ class LoginActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
                 // Handle any exceptions thrown during login
-                Toast.makeText(this@LoginActivity, e.message.toString(), Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main){
+                    Toast.makeText(this@LoginActivity, e.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+
 
             }
         }

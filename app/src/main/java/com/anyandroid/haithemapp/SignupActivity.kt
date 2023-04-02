@@ -32,7 +32,7 @@ class SignupActivity : AppCompatActivity() {
 
         }
         binding.txtLogin.setOnClickListener {
-            val intent = Intent(this@SignupActivity,LoginActivity::class.java)
+            val intent = Intent(this@SignupActivity, LoginActivity::class.java)
             startActivity(intent)
         }
     }
@@ -54,16 +54,21 @@ class SignupActivity : AppCompatActivity() {
 
                 // Switch to the Main dispatcher to show a toast message on the UI thread
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@SignupActivity,"Please, Verify your email",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SignupActivity,
+                        "Please, Verify your email",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 // Launch the LoginActivity after successful user creation
-                startActivity(Intent(this@SignupActivity,LoginActivity::class.java))
+                startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
 
             } catch (e: Exception) {
                 // Handle any exceptions thrown during user creation
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@SignupActivity,e.message.toString(),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignupActivity, e.message.toString(), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
