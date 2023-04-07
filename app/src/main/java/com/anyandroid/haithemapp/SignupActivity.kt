@@ -51,6 +51,7 @@ class SignupActivity : AppCompatActivity() {
 
             try {
                 // Attempt to create a user with the provided email and password
+
                 val authResult = auth.createUserWithEmailAndPassword(email, password).await()
                 val user = authResult.user
                 val profileUpdates = UserProfileChangeRequest.Builder()
