@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.widget.Toast
 import com.anyandroid.haithemapp.databinding.ActivitySignupBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,13 +44,28 @@ class SignupActivity : AppCompatActivity() {
     private fun registerUser() {
         val email = binding.editTextEmail.text.toString()
         val password = binding.editTextPassword.text.toString()
+        val username = binding.editTextName.text.toString()
 
         // Launch a coroutine on the IO dispatcher
         CoroutineScope(Dispatchers.IO).launch {
 
             try {
                 // Attempt to create a user with the provided email and password
+
                 val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+                val user = authResult.user
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(username)
+                    .build()
+
+                user?.updateProfile(profileUpdates)?.await()
+                val userMap = hashMapOf(
+                    "email" to email,
+                    "username" to username
+                )
+                var userDocument:FirebaseFirestore = Firebase.firestore
+                userDocument.collection("users").document(user?.uid?:"").set(userMap).await()
+
 
                 // Send email verification to the user
                 authResult.user?.sendEmailVerification()?.await()
